@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookSale.Management.Application\BookSale.Management.Application.csproj" />
+    <ProjectReference Include="..\BookSale.Managment.DataAccess\BookSale.Managment.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>

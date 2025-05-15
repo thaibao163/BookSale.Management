@@ -1,0 +1,32 @@
+# .NET Build Directory
+bin/
+obj/
+.vs/
+
+# Environment Configuration
+appsettings.Development.json
+.env
+
+# React.js directory
+node_modules/
+build/
+dist/
+
+# File system
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Backup Database
+*.bak
+*.mdf
+*.sqlite
+
+# Ignore the entire .vscode/ folder
+.vscode/
+
+# But still allowed to commit some useful files
+!.vscode/settings.json
+!.vscode/tasks.json
