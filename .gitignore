@@ -4,6 +4,7 @@ obj/
 .vs/
 
 # Environment Configuration
+appsettings.json
 appsettings.Development.json
 .env
 
