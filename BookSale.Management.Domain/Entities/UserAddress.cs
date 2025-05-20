@@ -26,8 +26,6 @@ namespace BookSale.Management.Domain.Entities
         [StringLength(1000)]
         public string Email { get; set; }
 
-        public bool? IsActive { get; set; }
-
         [Required]
         public string? UserId { get; set; }
 

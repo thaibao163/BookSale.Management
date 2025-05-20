@@ -1,6 +1,6 @@
 ﻿using BookSale.Management.Domain.Entities;
 using BookSale.Management.Domain.Setting;
-using BookSale.Managment.DataAccess.DataAccess;
+using BookSale.Managment.DataAccess.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

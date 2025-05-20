@@ -12,6 +12,8 @@ var buiderRazor = builder.Services.AddRazorPages();
 
 builder.Services.RegisterDb(builder.Configuration);
 
+builder.Services.AddDependencyInjection();
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddControllersWithViews();

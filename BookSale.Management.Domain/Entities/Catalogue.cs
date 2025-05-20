@@ -14,8 +14,5 @@ namespace BookSale.Management.Domain.Entities
 
         [StringLength(10000)]
         public string Description { get; set; }
-
-        [Required]
-        public bool IsActive { get; set; }
     }
 }

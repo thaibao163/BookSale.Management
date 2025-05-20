@@ -19,8 +19,6 @@ namespace BookSale.Management.Domain.Entities
 
         public bool Status { get; set; }
 
-        public bool IsActive { get; set; }
-
         [Required]
         public string? UserId { get; set; }
 
