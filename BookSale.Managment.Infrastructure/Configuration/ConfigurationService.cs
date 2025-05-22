@@ -1,4 +1,5 @@
 ﻿using BookSale.Management.Application;
+using BookSale.Management.Application.Services;
 using BookSale.Management.Domain.Abstract;
 using BookSale.Management.Domain.Entities;
 using BookSale.Managment.DataAccess.Data;
@@ -22,6 +23,23 @@ namespace BookSale.Managment.Infrastructure.Configuration
             services.AddIdentity<ApplicationUser, IdentityRole>()
                                     .AddEntityFrameworkStores<ApplicationDbContext>()
                                     .AddDefaultTokenProviders();
+
+            //save cookie user
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = "BookSaleMangementCookie";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+                options.LoginPath = "/admin/authentication/login";
+                options.SlidingExpiration = true;
+            });
+
+            //số lần nhập sai và thời gian lock
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1); 
+                options.Lockout.MaxFailedAccessAttempts = 3; 
+            });
         }
 
         public static void AddDependencyInjection(this IServiceCollection services)
@@ -33,6 +51,9 @@ namespace BookSale.Managment.Infrastructure.Configuration
             services.AddTransient<IGenreService, GenreService>();
 
             services.AddTransient<IBookService, BookService>();
+
+            services.AddTransient<IUserService, UserService>();
+
         }
     }
 }

@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var buiderRazor = builder.Services.AddRazorPages();
+var buiderRazor = builder.Services.AddRazorPages()
+                                    .AddSessionStateTempDataProvider();
 
 // Add services to the container.
 
@@ -16,9 +17,16 @@ builder.Services.AddDependencyInjection();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+                    .AddSessionStateTempDataProvider();
 
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages()
+         .AddSessionStateTempDataProvider();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
 
 var app = builder.Build();
 
@@ -57,5 +65,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+
+app.UseSession();
 
 app.Run();

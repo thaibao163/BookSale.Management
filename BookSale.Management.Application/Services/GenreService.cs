@@ -1,7 +1,7 @@
 ﻿using BookSale.Management.Application.DTOs;
 using BookSale.Management.Domain.Abstract;
 
-namespace BookSale.Management.Application
+namespace BookSale.Management.Application.Services
 {
     public class GenreService : IGenreService
     {

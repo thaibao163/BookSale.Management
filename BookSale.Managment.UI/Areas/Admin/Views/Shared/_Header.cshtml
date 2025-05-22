@@ -1,4 +1,5 @@
-﻿<nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
+﻿@using System.Security.Claims;
+<nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
     <div class="container-xxl">
         <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-6">
             <a href="index.html" class="app-brand-link gap-2">
@@ -114,8 +115,9 @@
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <span class="fw-medium d-block small">John Doe</span>
-                                        <small class="text-muted">Admin</small>
+                                        <span class="fw-medium d-block small">@User.Identity?.Name</span>
+                                        <span class="fw-medium d-block small">@User.FindFirst(ClaimTypes.Email)?.Value</span>
+                                        @*<small class="text-muted">Admin</small>*@
                                     </div>
                                 </div>
                             </a>
@@ -135,7 +137,7 @@
                         </li>
                         <li>
                             <div class="d-grid px-4 pt-2 pb-1">
-                                <a class="btn btn-sm btn-danger d-flex" href="auth-login-cover.html" target="_blank">
+                                <a class="btn btn-sm btn-danger d-flex" asp-controller="authentication" asp-action="logout">
                                     <small class="align-middle">Logout</small>
                                     <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
                                 </a>

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookSale.Management.Application
+namespace BookSale.Management.Application.Services
 {
     public class BookService : IBookService
     {
