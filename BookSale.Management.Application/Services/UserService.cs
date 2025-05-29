@@ -1,6 +1,9 @@
-﻿using BookSale.Management.Application.DTOs;
+﻿using AutoMapper;
+using BookSale.Management.Application.DTOs;
 using BookSale.Management.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookSale.Management.Application.Services
 {
@@ -8,54 +11,150 @@ namespace BookSale.Management.Application.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IImageService _imageService;
+        private readonly IMapper _mapper;
 
-        public UserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public UserService(UserManager<ApplicationUser> userManager,
+                            SignInManager<ApplicationUser> signInManager,
+                            RoleManager<IdentityRole> roleManager,
+                            IImageService imageService,
+                            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
+            _imageService = imageService;
+            _mapper = mapper;
         }
 
-        public async Task<ResponseModel> CheckLogin(string username, string password, bool remember)
+        public async Task<ResponseDataTable<UserModel>> GetUserByPagination(RequestDataTable requestDataTable)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var users = await _userManager.Users.Where(x => string.IsNullOrEmpty(requestDataTable.Keyword)
+                                                 || (x.UserName.Contains(requestDataTable.Keyword)
+                                                    || x.FullName.Contains(requestDataTable.Keyword)
+                                                    || x.Email.Contains(requestDataTable.Keyword)
+                                                    || x.PhoneNumber.Contains(requestDataTable.Keyword)))
+                                            .Select(x => new UserModel
+                                            {
+                                                Email = x.Email,
+                                                FullName = x.FullName,
+                                                Phone = x.PhoneNumber,
+                                                UserName = x.UserName,
+                                                IsActive = x.IsActive ? "Yes" : "No",
+                                                Id = x.Id
+                                            }).ToListAsync();
 
-            if (user is null)
+
+            int totalRecords = users.Count;
+
+            var result = users.Skip(requestDataTable.SkipItems).Take(requestDataTable.PageSize).ToList();
+
+            return new ResponseDataTable<UserModel>
             {
-                return new ResponseModel
+                Draw = requestDataTable.Draw,
+                RecordsTotal = totalRecords,
+                RecordsFiltered = totalRecords,
+                Data = result
+            };
+        }
+
+        public async Task<AccountDto> GetUserById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            var role = (await _userManager.GetRolesAsync(user)).First();
+
+            var userDto = _mapper.Map<AccountDto>(user);
+
+            userDto.RoleName = role;
+
+            return userDto;
+        }
+
+        public async Task<ResponseModel> Save(AccountDto account)
+        {
+            string errors = string.Empty;
+            IdentityResult identityResult;
+
+            if (string.IsNullOrEmpty(account.Id))
+            {
+                var applicationUser = new ApplicationUser
                 {
-                    Message = "Username or password is invalid"
+                    FullName = account.Fullname,
+                    UserName = account.Username,
+                    IsActive = account.IsActive,
+                    Email = account.Email,
+                    MobilePhone = account.MobilePhone,
+                    PhoneNumber = account.Phone,
+                    Address = account.Address
                 };
-            }
 
-            var result = await _signInManager.PasswordSignInAsync(user, password, isPersistent: remember, lockoutOnFailure: true);
+                identityResult = await _userManager.CreateAsync(applicationUser, account.Password);
 
-            if (result.IsLockedOut)
-            {
-                var remainingLockout = user.LockoutEnd.Value - DateTimeOffset.UtcNow;
-
-                return new ResponseModel
+                if (identityResult.Succeeded)
                 {
-                    Message = $"Account is locked out. Please try again in {Math.Round(remainingLockout.TotalMinutes)} minutes",
-                    RemainingSeconds = (int)remainingLockout.TotalSeconds
-                };
-            }
+                    await _userManager.AddToRoleAsync(applicationUser, account.RoleName);
 
-            if (!result.Succeeded)
+                    await _imageService.SaveImage(new List<IFormFile> { account.Avatar }, "images/user", $"{applicationUser.Id}.png");
+
+                    return new ResponseModel
+                    {
+                        Action = Domain.Enums.ActionType.Insert,
+                        Message = "Insert successful",
+                        Status = true,
+                    };
+                }
+            }
+            else
             {
-                return new ResponseModel
+                //update
+                var user = await _userManager.FindByIdAsync(account.Id);
+
+                user.FullName = account.Fullname;
+                user.IsActive = account.IsActive;
+                user.Email = account.Email;
+                user.MobilePhone = account.MobilePhone;
+                user.PhoneNumber = account.Phone;
+                user.Address = account.Address;
+
+                identityResult = await _userManager.UpdateAsync(user);
+
+                //check role
+                if (identityResult.Succeeded)
                 {
-                    Message = "Username or password is invalid"
-                };
+                    await _imageService.SaveImage(new List<IFormFile> { account.Avatar }, "images/user", $"{user.Id}.png");
+
+                    var hasRole = await _userManager.IsInRoleAsync(user, account.RoleName);
+
+                    if (!hasRole)
+                    {
+                        var roleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
+                        var removeResult = await _userManager.RemoveFromRoleAsync(user, roleName);
+
+                        if (removeResult.Succeeded)
+                        {
+                            await _userManager.AddToRoleAsync(user, account.RoleName);
+                        }
+                    }
+
+                    return new ResponseModel
+                    {
+                        Status = true,
+                        Message = "Update successful",
+                        Action = Domain.Enums.ActionType.Update
+                    };
+                }
             }
 
-            if (user.AccessFailedCount > 0)
-            {
-                await _userManager.ResetAccessFailedCountAsync(user);
-            }
+            errors = string.Join("<br />", identityResult.Errors.Select(x => x.Description));
 
             return new ResponseModel
             {
-                Status = true
+                Action = Domain.Enums.ActionType.Insert,
+                Message = $"{(string.IsNullOrEmpty(account.Id) ? "Insert" : "Update")} failes, {errors}",
+                Status = false,
             };
         }
     }

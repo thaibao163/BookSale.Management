@@ -9,12 +9,12 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
     [Area("Admin")]
     public class AuthenticationController : Controller
     {
-        private readonly IUserService _userService;
+        private readonly IAuthenticationService _authenticationService;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AuthenticationController(IUserService userService, SignInManager<ApplicationUser> signInManager)
+        public AuthenticationController(IAuthenticationService authenticationService, SignInManager<ApplicationUser> signInManager)
         {
-            _userService = userService;
+            _authenticationService = authenticationService;
             _signInManager = signInManager;
         }
 
@@ -49,7 +49,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
 
             }
 
-            var result = await _userService.CheckLogin(loginModel.Username, loginModel.Password, loginModel.Remember);
+            var result = await _authenticationService.CheckLogin(loginModel.Username, loginModel.Password, loginModel.Remember);
 
             if (!result.Status)
             {

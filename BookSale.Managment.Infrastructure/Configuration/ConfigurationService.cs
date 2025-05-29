@@ -15,7 +15,7 @@ namespace BookSale.Managment.Infrastructure.Configuration
     {
         public static void RegisterDb(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection") 
+            var connectionString = configuration.GetConnectionString("DefaultConnection")
                                     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
@@ -37,8 +37,8 @@ namespace BookSale.Managment.Infrastructure.Configuration
             services.Configure<IdentityOptions>(options =>
             {
                 options.Lockout.AllowedForNewUsers = true;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1); 
-                options.Lockout.MaxFailedAccessAttempts = 3; 
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+                options.Lockout.MaxFailedAccessAttempts = 3;
             });
         }
 
@@ -48,12 +48,22 @@ namespace BookSale.Managment.Infrastructure.Configuration
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            services.AddTransient<IGenreService, GenreService>();
+            //services.AddTransient<IGenreService, GenreService>();
 
-            services.AddTransient<IBookService, BookService>();
+            //services.AddTransient<IBookService, BookService>();
+
+            //services.AddTransient<IImageService, ImageService>();
+
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
 
             services.AddTransient<IUserService, UserService>();
 
+            services.AddTransient<IRoleService, RoleService>();
+        }
+
+        public static void AddAutoMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
     }
 }

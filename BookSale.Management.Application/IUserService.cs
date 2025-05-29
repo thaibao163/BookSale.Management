@@ -4,6 +4,8 @@ namespace BookSale.Management.Application
 {
     public interface IUserService
     {
-        Task<ResponseModel> CheckLogin(string username, string password, bool remember);
+        Task<AccountDto> GetUserById(string id);
+        Task<ResponseDataTable<UserModel>> GetUserByPagination(RequestDataTable requestDataTable);
+        Task<ResponseModel> Save(AccountDto account);
     }
 }

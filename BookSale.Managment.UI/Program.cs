@@ -1,3 +1,5 @@
+﻿using BookSale.Management.Application.Services;
+using BookSale.Management.Application;
 using BookSale.Managment.DataAccess;
 using BookSale.Managment.Infrastructure.Configuration;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +17,16 @@ builder.Services.RegisterDb(builder.Configuration);
 
 builder.Services.AddDependencyInjection();
 
+buiderRazor.Services.AddAutoMapper();
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddScoped<IImageService>(provider =>
+{
+    var env = provider.GetRequiredService<IWebHostEnvironment>();
+    return new ImageService(env.WebRootPath); // truyền thủ công WebRootPath
+});
+
 
 builder.Services.AddControllersWithViews()
                     .AddSessionStateTempDataProvider();
