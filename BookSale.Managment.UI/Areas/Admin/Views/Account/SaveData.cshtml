@@ -62,9 +62,15 @@
 
                         <!-- Image -->
                         <div class="form-group">
-                            <img src="/admin/assets/img/no-photo.jpg" height="150" />
+                            @if (!string.IsNullOrEmpty(Model.Id))
+                            {
+                                <img src="/images/user/@(Model.Id).png" height="150" id="img-avatar"  />
+                            }
+                            else
+                            {
+                                <img src="/images/user/no-image.png" alt="no image" height="150" id="img-avatar" />
+                            }
                             <input type="file" class="form-control" asp-for="Avatar" />
-                            <span asp-validation-for="Avatar" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -122,5 +128,6 @@
 @section Scripts{
     <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/admin/components/account_savedata.js"></script>
 }
 
