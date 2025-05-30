@@ -2,28 +2,31 @@
     ViewData["Title"] = "Index";
     Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-<h3 class="mb-4">User List</h3>
-
-<div class="card">
-    <div class="card-body">
-        <table id="userTable" class="table table-striped" style="width:100%">
-            <thead>
-                <tr>
-                    <th>
-                        <a href="/admin/account/savedata" title="Add new account">
-                            <i class="ri-user-add-line"></i>
-                        </a>
-                    </th>
-                    <th>Username</th>
-                    <th>Fullname</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>IsActive</th>
-                </tr>
-            </thead>
-        </table>
+@await Html.PartialAsync("/Areas/Admin/Views/Shared/_Breadcrumb.cshtml")
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="card">
+        <div class="card-body">
+            <table id="userTable" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="/admin/account/savedata" title="Add new account">
+                                <i class="ri-user-add-line"></i>
+                            </a>
+                        </th>
+                        <th>Username</th>
+                        <th>Fullname</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>IsActive</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
     </div>
 </div>
+
+
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

@@ -1,5 +1,6 @@
 ﻿using BookSale.Management.Application;
 using BookSale.Management.Application.DTOs;
+using BookSale.Management.UI.Ultility;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookSale.Management.UI.Areas.Admin.Controllers
@@ -15,6 +16,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
             _roleService = roleService;
         }
 
+        [Breadcrumb("Account List","Apps")]
         public IActionResult Index()
         {
             return View();
@@ -29,9 +31,10 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SaveData(string? id)
+        [Breadcrumb("Account Form", "Apps")]
+        public async Task<IActionResult> SaveDataAsync(string? id)
         {
-            AccountDto accountDto = !string.IsNullOrEmpty(id) ? await _userService.GetUserById(id) : new AccountDto();
+            AccountDto accountDto = !string.IsNullOrEmpty(id) ? await _userService.GetUserById(id) : new();
 
             ViewBag.Roles = await _roleService.GetRoleForDropdownlist();
 

@@ -58,7 +58,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Dashboard");
             }
 
             return View(loginModel);
