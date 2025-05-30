@@ -33,15 +33,15 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <script src="/admin/assets/js/registerDataTable.js"></script>
-
-    <script>
+    <script src="/admin/components/account.js"></script>
+    @*<script>
         const elementName = "#userTable";
         const columns = [
             {
                 data: 'id', name: 'id', width: '30',
                 render: function (key) {
                     return `<a href="/admin/account/savedata?id=${key}" title="Edit"><i class="ri-pencil-line"></i></a>&nbsp;
-                                                    <a href="#"><i class="ri-delete-bin-line" title="Delete" ></i></a>`;
+                                                            <a href="#" class="btn-delete"><i class="ri-delete-bin-line" title="Delete" ></i></a>`;
                 }
             },
             { data: 'userName', name: 'userName', autoWidth: true },
@@ -54,5 +54,5 @@
         const urlApi = "/admin/account/getaccountpagination";
 
         registerDataTable(elementName, columns, urlApi);
-    </script>
+    </script>*@
 }

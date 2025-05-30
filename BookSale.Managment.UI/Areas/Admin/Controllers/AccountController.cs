@@ -32,9 +32,9 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
 
         [HttpGet]
         [Breadcrumb("Account Form", "Apps")]
-        public async Task<IActionResult> SaveDataAsync(string? id)
+        public async Task<IActionResult> SaveData(string? id)
         {
-            AccountDto accountDto = !string.IsNullOrEmpty(id) ? await _userService.GetUserById(id) : new();
+            AccountDto accountDto = !string.IsNullOrEmpty(id) ? await _userService.GetUserById(id) : new AccountDto { IsActive = true };
 
             ViewBag.Roles = await _roleService.GetRoleForDropdownlist();
 
@@ -62,6 +62,12 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
             ModelState.AddModelError("errorsModel", result.Message);
 
             return View(accountDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAsync(string id)
+        {
+            return Json(await _userService.DeleteAsync(id));
         }
     }
 }

@@ -32,7 +32,7 @@ namespace BookSale.Management.Application.DTOs
 
         public string? Address { get; set; }
 
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         [DataType(DataType.Upload)]
         [ImageValidation(new string[] { ".png", ".jpg", ".jpeg" }, ErrorMessage = "Image is invalid")]

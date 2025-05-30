@@ -61,7 +61,7 @@
                         </div>
 
                         <!-- Image -->
-                        <div class="form-group">
+                        @*<div class="form-group">
                             @if (!string.IsNullOrEmpty(Model.Id))
                             {
                                 <img src="/images/user/@(Model.Id).png" height="150" id="img-avatar"  />
@@ -71,7 +71,18 @@
                                 <img src="/images/user/no-image.png" alt="no image" height="150" id="img-avatar" />
                             }
                             <input type="file" class="form-control" asp-for="Avatar" />
+                        </div>*@
+
+                        <div class="form-group">
+                            <img src="/images/user/@(Model.Id).png"
+                                 onerror="this.onerror=null; this.src='/images/user/no-image.png';"
+                                 height="150"
+                                 id="img-avatar"
+                                 alt="avatar" />
+
+                            <input type="file" class="form-control" asp-for="Avatar" />
                         </div>
+
                     </div>
 
                     <!-- Right column -->
@@ -108,11 +119,23 @@
                     <!-- Is Active -->
                     <div class="col-md-6">
                         <div class="form-check mb-4">
-                            <input class="form-check-input" type="checkbox" value="" asp-for="IsActive" checked />
+                            <input class="form-check-input" type="checkbox" value="" asp-for="IsActive" />
                             <label class="form-check-label" for="IsActive">Is Active</label>
                             <span asp-validation-for="IsActive" class="text-danger"></span>
                         </div>
                     </div>
+                    @*<div class="col-md-6">
+                        <div class="form-check mb-4">
+                            <!-- Hidden để luôn gửi false nếu checkbox không được check -->
+                            <input type="hidden" name="IsActive" value="false" />
+
+                            <!-- Checkbox sẽ override nếu được check -->
+                            <input class="form-check-input" type="checkbox" value="true" asp-for="IsActive" />
+                            <label class="form-check-label" for="IsActive">Is Active</label>
+                            <span asp-validation-for="IsActive" class="text-danger"></span>
+                        </div>
+                    </div>*@
+
                 </div>
 
 
