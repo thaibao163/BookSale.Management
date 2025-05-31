@@ -32,8 +32,12 @@
             dataType: 'json',
             method: 'POST',
             success: function (response) {
+                if (!response) {
+                    showToaster("Error", "Delete failed.");
+                    return;
+                }
                 $(elementName).DataTable().ajax.reload();
-                console.log(response);
+                showToaster("Success","Delete successful,");
             }
         })
     });

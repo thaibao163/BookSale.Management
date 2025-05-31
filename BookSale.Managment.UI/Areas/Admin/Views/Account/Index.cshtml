@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Index";
-    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @await Html.PartialAsync("/Areas/Admin/Views/Shared/_Breadcrumb.cshtml")
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -29,30 +29,8 @@
 
 
 @section Scripts {
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <script src="/admin/assets/js/registerDataTable.js"></script>
     <script src="/admin/components/account.js"></script>
-    @*<script>
-        const elementName = "#userTable";
-        const columns = [
-            {
-                data: 'id', name: 'id', width: '30',
-                render: function (key) {
-                    return `<a href="/admin/account/savedata?id=${key}" title="Edit"><i class="ri-pencil-line"></i></a>&nbsp;
-                                                            <a href="#" class="btn-delete"><i class="ri-delete-bin-line" title="Delete" ></i></a>`;
-                }
-            },
-            { data: 'userName', name: 'userName', autoWidth: true },
-            { data: 'fullName', name: 'fullName', autoWidth: true },
-            { data: 'email', name: 'email', autoWidth: true },
-            { data: 'phone', name: 'phone', autoWidth: true },
-            { data: 'isActive', name: 'isActive', autoWidth: true },
-        ];
-
-        const urlApi = "/admin/account/getaccountpagination";
-
-        registerDataTable(elementName, columns, urlApi);
-    </script>*@
 }

@@ -30,9 +30,9 @@ namespace BookSale.Management.Application.Services
             try
             {
                 //check image
-                if (images?.Count == 0 || string.IsNullOrEmpty(path))
+                if (images == null || !images.Any(x => x.Length > 0) || string.IsNullOrEmpty(path))
                 {
-                    return default;
+                    return false;
                 }
 
                 //string pathImage = Path.Combine(_webHostEnvironment.WebRootPath, path); //images/user
@@ -58,7 +58,7 @@ namespace BookSale.Management.Application.Services
             }
             catch (Exception)
             {
-                return default;
+                return false;
             }
 
             return true;
