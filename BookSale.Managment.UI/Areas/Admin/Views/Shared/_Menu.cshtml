@@ -1,30 +1,49 @@
 ﻿<aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu bg-menu-theme flex-grow-0">
     <div class="container-xxl d-flex h-100">
         <ul class="menu-inner">
+
             <!-- Dashboards -->
-            <li class="menu-item">
-                <a asp-action="" asp-controller="dashboard" class="menu-link">
+            <li class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")">
+                <a asp-controller="Dashboard" asp-action="Index" class="menu-link">
                     <i class="menu-icon tf-icons ri-home-smile-line"></i>
-                    <div data-i18n="Dashboards">Dashboards</div>
+                    <div>Dashboards</div>
                 </a>
             </li>
 
             <!-- Apps -->
-            <li class="menu-item active">
+            <li class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Account" ? "active" : "")">
                 <a href="javascript:void(0)" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons ri-mail-open-line"></i>
-                    <div data-i18n="Apps">Apps</div>
+                    <div>System</div>
                 </a>
                 <ul class="menu-sub">
                     <li class="menu-item">
-                        <a asp-action="" asp-controller="account" class="menu-link">
+                        <a asp-controller="Account" asp-action="Index" class="menu-link">
                             <i class="menu-icon tf-icons ri-mail-line"></i>
-                            <div data-i18n="Account">Account</div>
+                            <div>Account Management</div>
                         </a>
                     </li>
                 </ul>
             </li>
+
+            <!-- Genre -->
+            <li class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Genre" ? "active" : "")">
+                <a href="javascript:void(0)" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons ri-mail-open-line"></i>
+                    <div>Application</div>
+                </a>
+                <ul class="menu-sub">
+                    <li class="menu-item">
+                        <a asp-controller="Genre" asp-action="Index" class="menu-link">
+                            <i class="menu-icon tf-icons ri-mail-line"></i>
+                            <div>Genre Management</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
     </div>
 </aside>
+
 @await Html.PartialAsync("/Areas/Admin/Views/Shared/_Breadcrumb.cshtml")

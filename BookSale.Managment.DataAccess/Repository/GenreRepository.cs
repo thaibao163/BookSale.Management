@@ -12,7 +12,12 @@ namespace BookSale.Managment.DataAccess.Repository
 
         public async Task<IEnumerable<Genre>> GetAllGenres()
         {
-            return await base.GetAll(x => x.IsActive);
+            return await GetAll();
+        }
+
+        public async Task<Genre> GetById(int id)
+        {
+            return await GetSingleAsyns(x => x.Id == id);
         }
     }
 }

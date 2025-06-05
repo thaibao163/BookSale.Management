@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookSale.Management.Application.DTOs;
+using BookSale.Management.Application.DTOs.ViewModels;
 using BookSale.Management.Domain.Entities;
 
 namespace BookSale.Management.Application.Configuration
@@ -11,6 +12,8 @@ namespace BookSale.Management.Application.Configuration
             CreateMap<ApplicationUser, AccountDto>()
                 .ForMember(dest => dest.Phone, source => source.MapFrom(src => src.PhoneNumber))
                 .ReverseMap();
+            CreateMap<Genre, GenreDto>().ReverseMap();
+            CreateMap<Genre, GenreViewModels>().ReverseMap();
         }
 
     }

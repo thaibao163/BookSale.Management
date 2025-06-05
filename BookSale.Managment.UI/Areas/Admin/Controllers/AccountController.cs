@@ -16,7 +16,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
             _roleService = roleService;
         }
 
-        [Breadcrumb("Account List","Apps")]
+        [Breadcrumb("Account List", "System")]
         public IActionResult Index()
         {
             return View();
@@ -31,7 +31,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        [Breadcrumb("Account Form", "Apps")]
+        [Breadcrumb("Account Form", "System")]
         public async Task<IActionResult> SaveData(string? id)
         {
             AccountDto accountDto = !string.IsNullOrEmpty(id) ? await _userService.GetUserById(id) : new AccountDto { IsActive = true };

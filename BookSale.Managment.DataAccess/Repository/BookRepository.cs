@@ -12,7 +12,7 @@ namespace BookSale.Managment.DataAccess.Repository
 
         public async Task<IEnumerable<Book>> GetAllBooks()
         {
-            return await base.GetAll(x=> x.IsActive);
+            return await GetAll();
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using BookSale.Management.Application.DTOs;
+using BookSale.Management.Application.DTOs.ViewModels;
 
 namespace BookSale.Management.Application
 {
     public interface IGenreService
     {
-        Task<IEnumerable<GenreDto>> GetGenreList();
+        Task<GenreViewModels> GetById(int id);
+        Task<ResponseDataTable<GenreDto>> GetGenrePagination(RequestDataTable requestDataTable);
     }
 }

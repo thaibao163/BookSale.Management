@@ -1,0 +1,32 @@
+﻿@model BookSale.Management.Application.DTOs.ViewModels.GenreViewModels
+
+<div class="modal fade" id="genre-Modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <form asp-action="savedata" asp-controller="genre" method="post" asp-antiforgery="true" id="form-Genre">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Genre Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="Id" id="Id" />
+                    <div class="form-group">
+                        <label for="Name">Name<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="Name" placeholder="Name" id="Name" />
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/admin/components/genre.js"></script>
+}
